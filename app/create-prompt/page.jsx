@@ -30,6 +30,7 @@ const CreatePrompt = () => {
 				}),
 			});
 
+			console.log(response);
 			if (response.ok) {
 				router.push("/");
 			}
