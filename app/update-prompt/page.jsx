@@ -7,7 +7,6 @@ import Form from "@components/Form";
 
 const EditPrompt = () => {
 	const router = useRouter();
-	const { data: session } = useSession();
 	const searchParams = useSearchParams(); //to search the params for the intended id
 	const promptId = searchParams.get("id"); //to get the specific id we want to create the form to store
 
@@ -31,16 +30,16 @@ const EditPrompt = () => {
 		if (promptId) getPromptDetails();
 	}, [promptId]);
 
-	const CreatePrompt = async (e) => {
+	const updatePrompt = async (e) => {
 		e.preventDefault();
 		setSubmitting(true);
 
+		if (!promptId) return alert("Prompt ID not found");
 		try {
-			const response = await fetch("/api/prompt/new", {
-				method: "POST",
+			const response = await fetch(`/api/prompt/${promptId}`, {
+				method: "PATCH",
 				body: JSON.stringify({
 					prompt: post.prompt,
-					userId: session?.user.id,
 					tag: post.tag,
 				}),
 			});
@@ -58,11 +57,11 @@ const EditPrompt = () => {
 
 	return (
 		<Form
-			type='Create'
+			type='Edit'
 			post={post}
 			setPost={setPost}
 			submitting={submitting}
-			handleSubmit={CreatePrompt}
+			handleSubmit={updatePrompt}
 		/>
 	);
 };
