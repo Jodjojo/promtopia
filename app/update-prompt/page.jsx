@@ -5,16 +5,13 @@ import { useRouter, useSearchParams } from "next/navigation";
 
 import Form from "@components/Form";
 
-const EditPrompt = () => {
+const UpdatePrompt = () => {
 	const router = useRouter();
-	const searchParams = useSearchParams(); //to search the params for the intended id
-	const promptId = searchParams.get("id"); //to get the specific id we want to create the form to store
+	const searchParams = useSearchParams();
+	const promptId = searchParams.get("id");
 
-	const [submitting, setSubmitting] = useState(false);
-	const [post, setPost] = useState({
-		prompt: "",
-		tag: "",
-	});
+	const [post, setPost] = useState({ prompt: "", tag: "" });
+	const [submitting, setIsSubmitting] = useState(false);
 
 	useEffect(() => {
 		const getPromptDetails = async () => {
@@ -32,9 +29,10 @@ const EditPrompt = () => {
 
 	const updatePrompt = async (e) => {
 		e.preventDefault();
-		setSubmitting(true);
+		setIsSubmitting(true);
 
-		if (!promptId) return alert("Prompt ID not found");
+		if (!promptId) return alert("Missing PromptId!");
+
 		try {
 			const response = await fetch(`/api/prompt/${promptId}`, {
 				method: "PATCH",
@@ -44,14 +42,13 @@ const EditPrompt = () => {
 				}),
 			});
 
-			console.log(response);
 			if (response.ok) {
 				router.push("/");
 			}
 		} catch (error) {
 			console.log(error);
 		} finally {
-			setSubmitting(false);
+			setIsSubmitting(false);
 		}
 	};
 
@@ -66,4 +63,4 @@ const EditPrompt = () => {
 	);
 };
 
-export default EditPrompt;
+export default UpdatePrompt;
