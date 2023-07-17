@@ -57,7 +57,7 @@ const PromptCard = ({ post, handleTagClick, handleEdit, handleDelete }) => {
 				className='font-inter text-sm blue_gradient cursor-pointer'
 				onClick={() => handleTagClick && handleTagClick(post.tag)}
 			>
-				{post.tag}
+				#{post.tag}
 			</p>
 
 			{/* To edit posts on the prompt card we check that the user in session is the same as user that created prompt and the pathname is also correct*/}
